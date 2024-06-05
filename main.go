@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	pb "./se_coordinator/"
+	pb "github.com/suhas-bn-1412/cs223p_txn_chaining/se_coordinator"
 
 	"google.golang.org/grpc"
 )

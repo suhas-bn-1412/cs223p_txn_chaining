@@ -14,17 +14,17 @@ func NewSeCoordinator(tpLayer *TpLayer) *SeCoordinator {
 	}
 }
 
-func (s *SeCoordinator) CreateUser(ctx context.Context, userID, name string, accountBalance float64) error {
+func (s *SeCoordinator) CreateUser(ctx context.Context, userID, name string, accountBalance float32) error {
 	user := &User{UserID: userID, Name: name, AccountBalance: accountBalance}
 	return s.tpLayer.WriteUser(ctx, user)
 }
 
-func (s *SeCoordinator) AddSymbol(ctx context.Context, symbol, name string, currentPrice float64) error {
+func (s *SeCoordinator) AddSymbol(ctx context.Context, symbol, name string, currentPrice float32) error {
 	stock := &Stock{Symbol: symbol, Name: name, CurrentPrice: currentPrice}
 	return s.tpLayer.WriteStock(ctx, stock)
 }
 
-func (s *SeCoordinator) UpdatePrice(ctx context.Context, symbol string, newPrice float64) error {
+func (s *SeCoordinator) UpdatePrice(ctx context.Context, symbol string, newPrice float32) error {
 	stock, err := s.tpLayer.ReadStock(ctx, symbol)
 	if err != nil {
 		return err
@@ -33,7 +33,7 @@ func (s *SeCoordinator) UpdatePrice(ctx context.Context, symbol string, newPrice
 	return s.tpLayer.WriteStock(ctx, stock)
 }
 
-func (s *SeCoordinator) BuyLocal(ctx context.Context, userID, symbol string, quantity int, price float64) error {
+func (s *SeCoordinator) BuyLocal(ctx context.Context, userID, symbol string, quantity int, price float32) error {
 	user, err := s.tpLayer.ReadUser(ctx, userID)
 	if err != nil {
 		return err
@@ -49,7 +49,7 @@ func (s *SeCoordinator) BuyLocal(ctx context.Context, userID, symbol string, qua
 		return err
 	}
 
-	user.AccountBalance -= float64(quantity) * price
+	user.AccountBalance -= float32(quantity) * price
 	if err := s.tpLayer.WriteUser(ctx, user); err != nil {
 		return err
 	}
@@ -58,12 +58,12 @@ func (s *SeCoordinator) BuyLocal(ctx context.Context, userID, symbol string, qua
 	return s.tpLayer.WriteHolding(ctx, holding)
 }
 
-func (s *SeCoordinator) BuyInternational(ctx context.Context, userID, symbol string, quantity int, price float64) error {
+func (s *SeCoordinator) BuyInternational(ctx context.Context, userID, symbol string, quantity int, price float32) error {
 	// Implement buy international logic using tpLayer
 	return nil
 }
 
-func (s *SeCoordinator) SellLocal(ctx context.Context, userID, symbol string, quantity int, price float64) error {
+func (s *SeCoordinator) SellLocal(ctx context.Context, userID, symbol string, quantity int, price float32) error {
 	user, err := s.tpLayer.ReadUser(ctx, userID)
 	if err != nil {
 		return err
@@ -79,7 +79,7 @@ func (s *SeCoordinator) SellLocal(ctx context.Context, userID, symbol string, qu
 		return err
 	}
 
-	user.AccountBalance += float64(quantity) * price
+	user.AccountBalance += float32(quantity) * price
 	if err := s.tpLayer.WriteUser(ctx, user); err != nil {
 		return err
 	}
@@ -88,12 +88,12 @@ func (s *SeCoordinator) SellLocal(ctx context.Context, userID, symbol string, qu
 	return s.tpLayer.WriteHolding(ctx, holding)
 }
 
-func (s *SeCoordinator) SellInternational(ctx context.Context, userID, symbol string, quantity int, price float64) error {
+func (s *SeCoordinator) SellInternational(ctx context.Context, userID, symbol string, quantity int, price float32) error {
 	// Implement sell international logic using tpLayer
 	return nil
 }
 
-func (s *SeCoordinator) CheckBalance(ctx context.Context, userID string) (float64, error) {
+func (s *SeCoordinator) CheckBalance(ctx context.Context, userID string) (float32, error) {
 	user, err := s.tpLayer.ReadUser(ctx, userID)
 	if err != nil {
 		return 0, err
