@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package se_coordinator;
+
+option go_package = "./se_coordinator";
+
+service SeCoordinator {
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+    rpc AddSymbol (AddSymbolRequest) returns (AddSymbolResponse);
+    rpc UpdatePrice (UpdatePriceRequest) returns (UpdatePriceResponse);
+    rpc BuyLocal (BuyLocalRequest) returns (BuyLocalResponse);
+    rpc BuyInternational (BuyInternationalRequest) returns (BuyInternationalResponse);
+    rpc SellLocal (SellLocalRequest) returns (SellLocalResponse);
+    rpc SellInternational (SellInternationalRequest) returns (SellInternationalResponse);
+    rpc CheckBalance (CheckBalanceRequest) returns (CheckBalanceResponse);
+}
+
+message CreateUserRequest {
+    string user_id = 1;
+    string name = 2;
+    float account_balance = 3;
+}
+
+message CreateUserResponse {
+    string status = 1;
+}
+
+message AddSymbolRequest {
+    string symbol = 1;
+    string name = 2;
+    float current_price = 3;
+}
+
+message AddSymbolResponse {
+    string status = 1;
+}
+
+message UpdatePriceRequest {
+    string symbol = 1;
+    float new_price = 2;
+}
+
+message UpdatePriceResponse {
+    string status = 1;
+}
+
+message BuyLocalRequest {
+    string user_id = 1;
+    string symbol = 2;
+    int64 quantity = 3;
+    float price = 4;
+}
+
+message BuyLocalResponse {
+    string status = 1;
+}
+
+message BuyInternationalRequest {
+    string user_id = 1;
+    string symbol = 2;
+    int64 quantity = 3;
+    float price = 4;
+}
+
+message BuyInternationalResponse {
+    string status = 1;
+}
+
+message SellLocalRequest {
+    string user_id = 1;
+    string symbol = 2;
+    int64 quantity = 3;
+    float price = 4;
+}
+
+message SellLocalResponse {
+    string status = 1;
+}
+
+message SellInternationalRequest {
+    string user_id = 1;
+    string symbol = 2;
+    int64 quantity = 3;
+    float price = 4;
+}
+
+message SellInternationalResponse {
+    string status = 1;
+}
+
+message CheckBalanceRequest {
+    string user_id = 1;
+}
+
+message CheckBalanceResponse {
+    float account_balance = 1;
+}
+
